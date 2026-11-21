@@ -1,5 +1,4 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import { readFile } from "node:fs/promises";
 
 const release = process.env.RELEASE_ID ?? "A";
@@ -37,7 +36,6 @@ export default defineConfig({
     proxy: { "/api": "http://127.0.0.1:8081" },
   },
   plugins: [
-    react(),
     {
       name: "catalog-example",
       configureServer: configure,

@@ -1,4 +1,4 @@
 // Демо для GitHub Pages: модуль API подключается раньше приложения,
 // поэтому первый запрос конфига уже попадает в него.
 import "./mock-api.js";
-import "../src/main.jsx";
+import "../src/main.js";
