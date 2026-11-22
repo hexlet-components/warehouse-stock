@@ -19,12 +19,7 @@
     "reset": "node server/cli.mjs reset",
     "test": "node --test server/"
   },
-  "dependencies": {
-    "react": "19.3.1",
-    "react-dom": "19.3.1"
-  },
   "devDependencies": {
-    "@vitejs/plugin-react": "6.3.0",
     "vite": "8.3.5"
   }
 }
