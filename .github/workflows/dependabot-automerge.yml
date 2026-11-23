@@ -11,7 +11,9 @@ concurrency:
 
 jobs:
   automerge:
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    # В копии студента из шаблона обновления не сливаются сами, иначе сайт
+    # студента меняется без его коммита.
+    if: github.repository == 'hexlet-components/warehouse-stock' && github.event.pull_request.user.login == 'dependabot[bot]'
     permissions:
       contents: write
       pull-requests: write

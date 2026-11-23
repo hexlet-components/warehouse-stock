@@ -38,7 +38,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Копия студента из шаблона начинается с «Initial commit», а правки из
+      # веб-редактора GitHub не следуют conventional commits. Сообщения
+      # коммитов проверяются только в исходном репозитории.
       - name: Commit messages
+        if: github.repository == 'hexlet-components/warehouse-stock'
         env:
           FROM: ${{ github.event.pull_request.base.sha || github.event.before }}
           TO: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -48,8 +52,19 @@ jobs:
           fi
           commitlint --from "$FROM" --to "$TO"
 
+      # Первый пуш приходит с нулевым before. У первого коммита репозитория,
+      # созданного из шаблона, родителя нет, тогда проверяется вся история до TO.
       - name: Secrets
-        run: betterleaks git --log-opts="$FROM..$TO" --no-banner .
+        run: |
+          RANGE="$FROM..$TO"
+          if [ "$FROM" = "0000000000000000000000000000000000000000" ]; then
+            if git rev-parse --verify --quiet "$TO~1" >/dev/null; then
+              RANGE="$TO~1..$TO"
+            else
+              RANGE="$TO"
+            fi
+          fi
+          betterleaks git --log-opts="$RANGE" --no-banner .
         env:
           FROM: ${{ github.event.pull_request.base.sha || github.event.before }}
           TO: ${{ github.event.pull_request.head.sha || github.sha }}

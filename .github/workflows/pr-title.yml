@@ -20,6 +20,8 @@ permissions: {}
 
 jobs:
   lint:
+    # Копии студентов из шаблона заголовки PR не проверяют.
+    if: github.repository == 'hexlet-components/warehouse-stock'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
